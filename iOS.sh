@@ -16,12 +16,11 @@ dobuild() {
     ./prepare
     make clean
     ./configure --prefix=$PREFIX --host=$CHOST --target=$CHOST --without-readline
-    cp ../config.h .
     make gnuplot
 }
 
-Cp plot.c gnuplot/src/plot.c
-cp command.c gnuplot/src/command.c
+#cp plot.c gnuplot/src/plot.c
+cp patches/command.c gnuplot/src/command.c
 
 PWD=`pwd`
 

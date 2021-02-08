@@ -2636,7 +2636,7 @@ do_system(const char *cmd)
     if (!cmd)
 	return;
     restrict_popen();
-    // system(cmd);
+    posix_spawn(cmd);
 # endif /* !(_Windows) */
 }
 
@@ -2723,7 +2723,7 @@ do_shell()
 #  if defined(_Windows)
 	if (WinExec(user_shell, SW_SHOWNORMAL) <= 32)
 #  elif defined(DJGPP)
-	    if (system(user_shell) == -1)
+	    if (posix_spawn(user_shell) == -1)
 #  else
 		if (spawnl(P_WAIT, user_shell, NULL) == -1)
 #  endif			/* !(_Windows || DJGPP) */
@@ -2740,10 +2740,9 @@ do_shell()
     c_token++;
 
     if (user_shell) {
-/*
-	if (system(user_shell) == -1)
-	    os_error(NO_CARET, "system() failed");
-*/
+	if (posix_spawn(user_shell) == -1)
+	    os_error(NO_CARET, "posix_spawn() failed");
+
     }
     (void) putc('\n', stderr);
 }
@@ -2762,11 +2761,9 @@ do_shell()
     c_token++;
 
     if (user_shell) {
-/*
-	if (system(safe_strncpy(&exec[sizeof(EXEC) - 1], user_shell,
+	if (posix_spawn(safe_strncpy(&exec[sizeof(EXEC) - 1], user_shell,
 				sizeof(exec) - sizeof(EXEC) - 1)))
-	    os_error(NO_CARET, "system() failed");
-*/
+	    os_error(NO_CARET, "posix_spawn() failed");
     }
     (void) putc('\n', stderr);
 }
