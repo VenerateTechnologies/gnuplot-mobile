@@ -1,0 +1,3 @@
+[submodule "gnuplot"]
+	path = gnuplot
+	url = https://github.com/gnuplot/gnuplot.git
