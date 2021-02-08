@@ -20,6 +20,7 @@ dobuild() {
     make install prefix=$PREFIX
 }
 
+Cp plot.c gnuplot/src/plot.c
 cp command.c gnuplot/src/command.c
 
 PWD=`pwd`
@@ -58,4 +59,4 @@ cd gnuplot
 dobuild
 cd ..
 
-#xcrun lipo -create -output "${PWD}/build/ios/libdcraw.a" "${PWD}/build/ios/arm64/lib/libdcraw.a" "${PWD}/build/ios/i386/lib/libdcraw.a" "${PWD}/build/ios/x86_64/lib/libdcraw.a"
+xcrun lipo -create -output "${PWD}/build/ios/gnuplot.a" "${PWD}/build/ios/arm64/bin/gnuplot" "${PWD}/build/ios/i386/bin/gnuplot" "${PWD}/build/ios/x86_64/bin/gnuplot"
