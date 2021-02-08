@@ -7,12 +7,12 @@ dobuild() {
     ./prepare
     make distclean
 
+    ./configure --prefix=$PREFIX --host=$CHOST --without-readline \
     CC="$(xcrun -find -sdk ${SDK} gcc)" \
     CXX="$(xcrun -find -sdk ${SDK} gcc)" \
     CPP="$(xcrun -find -sdk ${SDK} cpp)"  \
     CFLAGS="${HOST_FLAGS} ${OPT_FLAGS}" \
-    CXXFLAGS="${HOST_FLAGS} ${OPT_FLAGS}" \
-    ./configure --prefix=$PREFIX --host=$CHOST --without-readline
+    CXXFLAGS="${HOST_FLAGS} ${OPT_FLAGS}"
 
     make
 }
