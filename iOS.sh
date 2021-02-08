@@ -3,19 +3,16 @@
 OPT_FLAGS=""
 
 dobuild() {
-    export CC="$(xcrun -find -sdk ${SDK} gcc)"
-    export CXX="$(xcrun -find -sdk ${SDK} gcc)"
-    export CPP="$(xcrun -find -sdk ${SDK} cpp)"
-    export AR="$(xcrun -find -sdk ${SDK} ar)"
-    export LD="$(xcrun -find -sdk ${SDK} ld)"
-    export RANLIB="$(xcrun -find -sdk ${SDK} ranlib)"
 
     ./prepare
     make distclean
 
+    CC="$(xcrun -find -sdk ${SDK} gcc)" \
+    CXX="$(xcrun -find -sdk ${SDK} gcc)" \
+    CPP="$(xcrun -find -sdk ${SDK} cpp)"  \
     CFLAGS="${HOST_FLAGS} ${OPT_FLAGS}" \
     CXXFLAGS="${HOST_FLAGS} ${OPT_FLAGS}" \
-         ./configure --prefix=$PREFIX --host=$CHOST --without-readline
+    ./configure --prefix=$PREFIX --host=$CHOST --without-readline
 
     make
 }
