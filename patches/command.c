@@ -95,6 +95,9 @@ static char *RCSid() { return RCSid("$Id: command.c,v 1.230.2.14 2014/01/29 19:0
 #include "term_api.h"
 #include "util.h"
 
+#include <spawn.h>
+extern char **environ;
+
 #ifdef USE_MOUSE
 # include "mouse.h"
 int paused_for_mouse = 0;
@@ -144,6 +147,18 @@ static int winsystem __PROTO((const char *));
 int vms_vkid;			/* Virtual keyboard id */
 int vms_ktid;			/* key table id, for translating keystrokes */
 #endif /* VMS */
+
+/* POSIX Spawn */
+int spawn_system(char *cmd) {
+    pid_t pid;
+    char *argv[] = {
+        cmd,
+        NULL
+    };
+    int result = posix_spawn(&pid, argv[0], NULL, NULL, argv, environ);
+    waitpid(pid, NULL, 0);
+    return result;
+}
 
 
 /* static prototypes */
@@ -2636,7 +2651,7 @@ do_system(const char *cmd)
     if (!cmd)
 	return;
     restrict_popen();
-    posix_spawn(cmd);
+    spawn_system(cmd);
 # endif /* !(_Windows) */
 }
 
@@ -2723,7 +2738,7 @@ do_shell()
 #  if defined(_Windows)
 	if (WinExec(user_shell, SW_SHOWNORMAL) <= 32)
 #  elif defined(DJGPP)
-	    if (posix_spawn(user_shell) == -1)
+	    if (spawn_system(user_shell) == -1)
 #  else
 		if (spawnl(P_WAIT, user_shell, NULL) == -1)
 #  endif			/* !(_Windows || DJGPP) */
@@ -2740,8 +2755,8 @@ do_shell()
     c_token++;
 
     if (user_shell) {
-	if (posix_spawn(user_shell) == -1)
-	    os_error(NO_CARET, "posix_spawn() failed");
+	if (spawn_system(user_shell) == -1)
+	    os_error(NO_CARET, "system() failed");
 
     }
     (void) putc('\n', stderr);
@@ -2761,9 +2776,9 @@ do_shell()
     c_token++;
 
     if (user_shell) {
-	if (posix_spawn(safe_strncpy(&exec[sizeof(EXEC) - 1], user_shell,
+	if (spawn_system(safe_strncpy(&exec[sizeof(EXEC) - 1], user_shell,
 				sizeof(exec) - sizeof(EXEC) - 1)))
-	    os_error(NO_CARET, "posix_spawn() failed");
+	    os_error(NO_CARET, "system() failed");
     }
     (void) putc('\n', stderr);
 }

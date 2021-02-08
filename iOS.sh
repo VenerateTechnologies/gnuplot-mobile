@@ -9,12 +9,12 @@ dobuild() {
     export AR="$(xcrun -find -sdk ${SDK} ar)"
     export LD="$(xcrun -find -sdk ${SDK} ld)"
     export RANLIB="$(xcrun -find -sdk ${SDK} ranlib)"
-    export CFLAGS="${HOST_FLAGS} ${OPT_FLAGS} -I$PREFIX/include"
-    export CXXFLAGS="${HOST_FLAGS} ${OPT_FLAGS} -I$PREFIX/include"
-    export LDFLAGS="-L${PREFIX}/lib"
-    
+    export CFLAGS="${HOST_FLAGS} ${OPT_FLAGS}"
+    export CXXFLAGS="${HOST_FLAGS} ${OPT_FLAGS}"
+    export LDFLAGS="${HOST_FLAGS} ${OPT_FLAGS}"
+
     ./prepare
-    make clean
+    make distclean
     ./configure --prefix=$PREFIX --host=$CHOST --target=$CHOST --without-readline
     make gnuplot
 }
