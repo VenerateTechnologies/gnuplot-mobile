@@ -7,13 +7,17 @@ dobuild() {
     ./prepare
     make distclean
 
-    ./configure --prefix=$PREFIX --host=$CHOST --without-readline \
-    CC="$(xcrun -find -sdk ${SDK} gcc)" \
-    CXX="$(xcrun -find -sdk ${SDK} gcc)" \
+
+    CC="$(xcrun -find -sdk ${SDK} clang)" \
+    CXX="$(xcrun -find -sdk ${SDK} clang)" \
     CPP="$(xcrun -find -sdk ${SDK} cpp)"  \
     CFLAGS="${HOST_FLAGS} ${OPT_FLAGS}" \
-    CXXFLAGS="${HOST_FLAGS} ${OPT_FLAGS}"
-
+    CXXFLAGS="${HOST_FLAGS} ${OPT_FLAGS}" \
+    OBJC="$(xcrun -find -sdk ${SDK} clang)" \
+    OBJCFLAGS="${HOST_FLAGS} ${OPT_FLAGS}" \
+    ./configure --prefix=$PREFIX --host=$CHOST --without-readline
+    make clean
+    make
     make
 }
 
@@ -33,6 +37,7 @@ cd gnuplot
 dobuild
 cp src/gnuplot $PREFIX/gnuplot 
 cd ..
+
 
 SDK="iphonesimulator"
 ARCH_FLAGS="-arch i386"
