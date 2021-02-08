@@ -17,8 +17,8 @@ dobuild() {
     OBJCFLAGS="${HOST_FLAGS} ${OPT_FLAGS}" \
     ./configure --prefix=$PREFIX --host=$CHOST --without-readline
     make clean
-    make binonly
-    make binonly
+    make gnuplot
+    make gnuplot
 }
 
 #cp plot.c gnuplot/src/plot.c
