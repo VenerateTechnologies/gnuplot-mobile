@@ -1102,3 +1102,9 @@ RelativePathToGnuplot(const char * path)
     return rel_path;
 }
 #endif
+
+int main(int argc_orig, char **argv)
+{
+gnuplot_main(argc_orig, argv);
+}
+
