@@ -9,14 +9,15 @@ dobuild() {
     export AR="$(xcrun -find -sdk ${SDK} ar)"
     export LD="$(xcrun -find -sdk ${SDK} ld)"
     export RANLIB="$(xcrun -find -sdk ${SDK} ranlib)"
-    export CFLAGS="${HOST_FLAGS} ${OPT_FLAGS}"
-    export CXXFLAGS="${HOST_FLAGS} ${OPT_FLAGS}"
-    export LDFLAGS="${HOST_FLAGS} ${OPT_FLAGS}"
 
     ./prepare
     make distclean
-    ./configure --prefix=$PREFIX --host=$CHOST --without-readline
-    make gnuplot
+
+    CFLAGS="${HOST_FLAGS} ${OPT_FLAGS}" \
+    CXXFLAGS="${HOST_FLAGS} ${OPT_FLAGS}" \
+         ./configure --prefix=$PREFIX --host=$CHOST --without-readline
+
+    make
 }
 
 #cp plot.c gnuplot/src/plot.c
