@@ -16,8 +16,8 @@ dobuild() {
     ./prepare
     make clean
     ./configure --prefix=$PREFIX --host=$CHOST --target=$CHOST --without-readline
+    cp ../config.h .
     make gnuplot
-    make install prefix=$PREFIX
 }
 
 Cp plot.c gnuplot/src/plot.c
@@ -34,6 +34,7 @@ mkdir -p $PREFIX
 
 cd gnuplot
 dobuild
+cp src/gnuplot $PREFIX/gnuplot 
 cd ..
 
 SDK="iphonesimulator"
@@ -45,6 +46,7 @@ mkdir -p $PREFIX
 
 cd gnuplot
 dobuild
+cp src/gnuplot $PREFIX/gnuplot 
 cd ..
 
 
@@ -57,6 +59,7 @@ mkdir -p $PREFIX
 
 cd gnuplot
 dobuild
+cp src/gnuplot $PREFIX/gnuplot 
 cd ..
 
-xcrun lipo -create -output "${PWD}/build/ios/gnuplot.a" "${PWD}/build/ios/arm64/bin/gnuplot" "${PWD}/build/ios/i386/bin/gnuplot" "${PWD}/build/ios/x86_64/bin/gnuplot"
+xcrun lipo -create -output "${PWD}/build/ios/gnuplot" "${PWD}/build/ios/arm64/gnuplot" "${PWD}/build/ios/i386/gnuplot" "${PWD}/build/ios/x86_64/gnuplot"
