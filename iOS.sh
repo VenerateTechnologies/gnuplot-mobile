@@ -3,8 +3,8 @@
 OPT_FLAGS=""
 
 dobuild() {
-    export CC="$(xcrun -find -sdk ${SDK} clang)"
-    export CXX="$(xcrun -find -sdk ${SDK} clang)"
+    export CC="$(xcrun -find -sdk ${SDK} gcc)"
+    export CXX="$(xcrun -find -sdk ${SDK} gcc)"
     export CPP="$(xcrun -find -sdk ${SDK} cpp)"
     export AR="$(xcrun -find -sdk ${SDK} ar)"
     export LD="$(xcrun -find -sdk ${SDK} ld)"
