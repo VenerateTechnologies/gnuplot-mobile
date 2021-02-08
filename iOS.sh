@@ -15,7 +15,7 @@ dobuild() {
 
     ./prepare
     make distclean
-    ./configure --prefix=$PREFIX --host=$CHOST --target=$CHOST --without-readline
+    ./configure --prefix=$PREFIX --host=$CHOST --without-readline
     make gnuplot
 }
 
